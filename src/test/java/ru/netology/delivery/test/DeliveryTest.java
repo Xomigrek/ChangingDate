@@ -27,19 +27,20 @@ class DeliveryTest {
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         var daysToAddForSecondMeeting = 7;
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
+
         $$("[type=\"text\"]").first().setValue(data.generateCity("ru"));
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.CONTROL + "A");
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.BACK_SPACE);
-        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate(daysToAddForFirstMeeting));
+        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate (daysToAddForFirstMeeting));
         $$("[type=\"text\"]").last().setValue(data.generateName("ru"));
-        $x("//input[@name=\"phone\"]").setValue(data.generatePhone("ru"));
+        $x("//input[@name=\"phone\"]").setValue(data.generatePhone ("ru"));
         $(".checkbox").click();
         $("button.button").click();
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.CONTROL + "A");
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.BACK_SPACE);
-        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate(daysToAddForSecondMeeting));
+        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate (daysToAddForSecondMeeting));
         $("button.button").click();
         $$("button.button").last().click();
-        $("[data-test-id='success-notification'] .notification__content").should(text("Встреча успешно запланирована на " + data.generateDate(daysToAddForSecondMeeting)));
+        $("[data-test-id='success-notification'] .notification__content").should(text("Встреча успешно запланирована на " + data.generateDate (daysToAddForSecondMeeting)));
     }
 }
