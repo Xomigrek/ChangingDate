@@ -22,25 +22,28 @@ class DeliveryTest {
     @DisplayName("Should successful plan and replan meeting")
     void shouldSuccessfulPlanAndReplanMeeting() {
         Configuration.holdBrowserOpen = true;
+
         var validUser = DataGenerator.Registration.generateUser("ru");
         var daysToAddForFirstMeeting = 4;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         var daysToAddForSecondMeeting = 7;
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
-
-        $$("[type=\"text\"]").first().setValue(data.generateCity("ru"));
+        String planningFirstDate = data.generateDate(daysToAddForFirstMeeting);
+        String planningSecondDate = data.generateDate(daysToAddForSecondMeeting);
+        $("[data-test-id=\"city\"] .input__control").setValue(data.generateCity("ru"));
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.CONTROL + "A");
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.BACK_SPACE);
-        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate (daysToAddForFirstMeeting));
-        $$("[type=\"text\"]").last().setValue(data.generateName("ru"));
+        $x("//input[@placeholder=\"Дата встречи\"]").setValue(planningFirstDate);
+        $("[data-test-id=\"name\"] .input__control").setValue(data.generateName("ru"));
         $x("//input[@name=\"phone\"]").setValue(data.generatePhone ("ru"));
         $(".checkbox").click();
         $("button.button").click();
+        $("[data-test-id='success-notification'] .notification__content").should(text("Встреча успешно запланирована на " + planningFirstDate));
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.CONTROL + "A");
         $x("//input[@placeholder=\"Дата встречи\"]").sendKeys(Keys.BACK_SPACE);
-        $x("//input[@placeholder=\"Дата встречи\"]").setValue(data.generateDate (daysToAddForSecondMeeting));
+        $x("//input[@placeholder=\"Дата встречи\"]").setValue(planningSecondDate);
         $("button.button").click();
-        $$("button.button").last().click();
-        $("[data-test-id='success-notification'] .notification__content").should(text("Встреча успешно запланирована на " + data.generateDate (daysToAddForSecondMeeting)));
+        $("[data-test-id=\"replan-notification\"] .button").click();
+        $("[data-test-id='success-notification'] .notification__content").should(text("Встреча успешно запланирована на " + planningSecondDate));
     }
 }
